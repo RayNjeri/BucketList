@@ -50,9 +50,9 @@ def create_app(config_name):
                 }
                 results.append(obj)
 
-                response = jsonify(results)
-                response.status_code = 200
-                return response
+            response = jsonify(results)
+            response.status_code = 200
+            return response
 
     @app.route('/bucketlists/<int:id>', methods=['GET', 'PUT', 'DELETE'])
     def bucketlist_manipulation(id, **kwargs):
