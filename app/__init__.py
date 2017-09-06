@@ -35,9 +35,10 @@ def create_app(config_name):
                 })
                 response.status_code = 201
                 return response
-            else:
+        else:
                 # GET
-                bucketlists = Bucketlist.get_all()
+
+            bucketlists = Bucketlist.get_all()
             results = []
 
             for bucketlist in bucketlists:
@@ -48,13 +49,14 @@ def create_app(config_name):
                     'date_modified': bucketlist.date_modified
                 }
                 results.append(obj)
+
                 response = jsonify(results)
                 response.status_code = 200
                 return response
 
     @app.route('/bucketlists/<int:id>', methods=['GET', 'PUT', 'DELETE'])
     def bucketlist_manipulation(id, **kwargs):
-        # retrieve a buckelist using it's ID
+            # retrieve a buckelist using it's ID
         bucketlist = Bucketlist.query.filter_by(id=id).first()
         if not bucketlist:
             # Raise an HTTPException with a 404 not found status code
