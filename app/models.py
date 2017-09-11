@@ -57,7 +57,7 @@ class User(db.Model):
 
         except Exception as e:
             # return an error in string format if an exception occurs
-            return str(e)
+            raise
 
     @staticmethod
     def decode_token(token):
