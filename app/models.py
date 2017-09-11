@@ -4,6 +4,7 @@ from app import db
 from flask_bcrypt import Bcrypt
 import jwt
 from datetime import datetime, timedelta
+from flask import current_app
 
 
 class User(db.Model):
@@ -84,6 +85,7 @@ class Bucketlist(db.Model):
     date_modified = db.Column(
         db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __init__(self, name):
         """initialize with name."""
