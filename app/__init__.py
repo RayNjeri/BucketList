@@ -27,12 +27,8 @@ def create_app(config_name):
             if name:
                 bucketlist = Bucketlist(name=name)
                 bucketlist.save()
-                response = jsonify({
-                    'id': bucketlist.id,
-                    'name': bucketlist.name,
-                    'date_created': bucketlist.date_created,
-                    'date_modified': bucketlist.date_modified
-                })
+                response = jsonify(
+                    pick(['id', 'name', 'date_created', 'date_modified'], bucketlist))
                 response.status_code = 201
                 return response
         else:
@@ -78,12 +74,8 @@ def create_app(config_name):
             return response
         else:
             # GET
-            response = jsonify({
-                'id': bucketlist.id,
-                'name': bucketlist.name,
-                'date_created': bucketlist.date_created,
-                'date_modified': bucketlist.date_modified
-            })
+            response = jsonify(
+                pick(['id', 'name', 'date_created', 'date_modified'], bucketlist))
             response.status_code = 200
 
             return response
