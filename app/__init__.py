@@ -12,7 +12,7 @@ db = SQLAlchemy()
 
 
 def create_app(config_name):
-    from app.models import Bucketlist
+    from app.models import Bucketlist, User
 
     app = FlaskAPI(__name__, instance_relative_config=True)
     app.config.from_object(app_config[config_name])
@@ -22,6 +22,7 @@ def create_app(config_name):
 
     @app.route('/bucketlists/', methods=['POST', 'GET'])
     def bucketlists():
+        # Get the access token from the header
         auth_header = request.headers.get('Authorization')
         access_token = auth_header.split(" ")[1]
 
@@ -43,7 +44,6 @@ def create_app(config_name):
                             'date_modified': bucketlist.date_modified,
                             'created_by': user_id
                         })
-
                         return make_response(response), 201
 
                 else:
