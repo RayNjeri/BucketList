@@ -43,7 +43,7 @@ class User(db.Model):
         try:
             # set up a payload with an expiration time
             payload = {
-                'exp': datetime.utcnow() + timedelta(minutes=5),
+                'exp': datetime.utcnow() + timedelta(minutes=60),
                 'iat': datetime.utcnow(),
                 'sub': user_id
             }
@@ -85,7 +85,7 @@ class Bucketlist(db.Model):
     date_modified = db.Column(
         db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __init__(self, name):
         """initialize with name."""

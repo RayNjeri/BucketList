@@ -26,9 +26,14 @@ def create_app(config_name):
         auth_header = request.headers.get('Authorization')
         access_token = auth_header.split(" ")[1]
 
+        # import pdb
+        # pdb.set_trace()
+
         if access_token:
             # Attempt to decode the token and get the User ID
             user_id = User.decode_token(access_token)
+            print('user_id {!r}'.format(user_id))
+            print('access_token: ', access_token)
             if not isinstance(user_id, str):
                 # Go ahead and handle the request, the user is authenticated
 
@@ -65,7 +70,7 @@ def create_app(config_name):
                     return make_response(jsonify(results)), 200
             else:
                 # user is not legit, so the payload is an error message
-                message = user_id
+                message = "Anauthorized user"
                 response = {
                     'message': message
                 }
