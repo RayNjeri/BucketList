@@ -34,7 +34,7 @@ def create_app(config_name):
             user_id = User.decode_token(access_token)
             print('user_id {!r}'.format(user_id))
             print('access_token: ', access_token)
-            if not isinstance(user_id, str):
+            if isinstance(user_id, str):
                 # Go ahead and handle the request, the user is authenticated
 
                 if request.method == "POST":
