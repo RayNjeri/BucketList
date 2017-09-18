@@ -32,6 +32,8 @@ def create_app(config_name):
         if access_token:
             # Attempt to decode the token and get the User ID
             user_id = User.decode_token(access_token)
+
+            # implement pagination
             limit = int(request.args.get("limit", 20))
             page = int(request.args.get("page", 1))
             if int(limit) > 100:
