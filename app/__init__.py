@@ -32,8 +32,20 @@ def create_app(config_name):
         if access_token:
             # Attempt to decode the token and get the User ID
             user_id = User.decode_token(access_token)
-            print('user_id {!r}'.format(user_id))
-            print('access_token: ', access_token)
+            limit = int(request.args.get("limit", 20))
+            page = int(request.args.get("page", 1))
+            if int(limit) > 100:
+                limit = 10
+            search = request.args.get('q', None)
+            if search:
+                bucketlists = Bucketlist.query.filter(
+                    Bucketlist.name.ilike('%' + search + '%')).filter_by(user_id=user_id)
+                if not Bucketlist.query.count():
+                    return {"message":
+                            "No bucketlists found matching '{}'".format(search)}
+
+            # print('user_id {!r}'.format(user_id))
+            # print('access_token: ', access_token)
             if isinstance(user_id, str):
                 # Go ahead and handle the request, the user is authenticated
 
@@ -55,9 +67,13 @@ def create_app(config_name):
                     # GET all the bucketlists created by this user
                     bucketlists = Bucketlist.query.filter_by(
                         created_by=user_id)
+                    bucketlists = Bucketlist.query.paginate(page=page,
+                                                            per_page=limit,
+                                                            error_out=False)
+
                     results = []
 
-                    for bucketlist in bucketlists:
+                    for bucketlist in bucketlists.items:
                         obj = {
                             'id': bucketlist.id,
                             'name': bucketlist.name,
