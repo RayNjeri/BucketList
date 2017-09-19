@@ -147,7 +147,7 @@ def create_app(config_name):
                     return make_response(jsonify(response)), 200
             else:
                 # user is not legit, so the payload is an error message
-                message = user_id
+                message = "Anauthorized User"
                 response = {
                     'message': message
                 }
